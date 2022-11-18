@@ -48,16 +48,22 @@ pipeline{
       }
     }
     stage('Terraform Plan') {
+      agent{
+        label 'Terraform'
+      }
       steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'aws_access_key_id'), 
                       string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'aws_secret_access_key')]) {
                         dir('intTerraform') {
-                            sh 'echo $aws_access_key_id | tee t && echo $aws_secret_access_key | tee tt && terraform plan -out plan.tfplan -var="aws_access_key_id=$aws_access_key_id" -var="aws_secret_access_key=$aws_secret_access_key"'
+                            sh 'terraform plan -out plan.tfplan -var="aws_access_key_id=$aws_access_key_id" -var="aws_secret_access_key=$aws_secret_access_key"'
                         }
         }
       }
     }
     stage('Terraform Apply') {
+      agent{
+        label 'Terraform'
+      }
       steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'aws_access_key_id'), 
                       string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'aws_secret_access_key')]) {
@@ -116,6 +122,9 @@ pipeline{
       }
     }
     stage('Terraform Destroy') {
+      agent{
+        label 'Terraform'
+      }
       steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'aws_access_key_id'),
                       string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'aws_secret_access_key')]) {
