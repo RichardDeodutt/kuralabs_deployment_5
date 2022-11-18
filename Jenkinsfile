@@ -18,17 +18,17 @@ pipeline{
                       string(credentialsId: 'DOCKERHUB_PWD', variable: 'dockerhub_pwd')]) {
                         dir('intDocker') {
                             sh '''#!/bin/bash
-                              docker login --username $dockerhub_usr --password $docker_pwd
-                              docker build -t $dockerhub_usr/d5-adminer:latest ./adminer
-                              docker build -t $dockerhub_usr/d5-mysql:latest ./mysql
-                              docker build -t $dockerhub_usr/d5-nginx:latest ./nginx
-                              docker build -t $dockerhub_usr/d5-backend:latest ./backend
-                              docker build -t $dockerhub_usr/d5-frontend:latest ./frontend
-                              docker push $dockerhub_usr/d5-adminer:latest
-                              docker push $dockerhub_usr/d5-mysql:latest
-                              docker push $dockerhub_usr/d5-nginx:latest
-                              docker push $dockerhub_usr/d5-backend:latest
-                              docker push $dockerhub_usr/d5-frontend:latest
+                              docker login --username $dockerhub_usr --password $dockerhub_pwd || exit 1
+                              docker build -t $dockerhub_usr/d5-adminer:latest ./adminer || exit 1
+                              docker build -t $dockerhub_usr/d5-mysql:latest ./mysql || exit 1
+                              docker build -t $dockerhub_usr/d5-nginx:latest ./nginx || exit 1
+                              docker build -t $dockerhub_usr/d5-backend:latest ./backend || exit 1
+                              docker build -t $dockerhub_usr/d5-frontend:latest ./frontend || exit 1
+                              docker push $dockerhub_usr/d5-adminer:latest || exit 1
+                              docker push $dockerhub_usr/d5-mysql:latest || exit 1
+                              docker push $dockerhub_usr/d5-nginx:latest || exit 1
+                              docker push $dockerhub_usr/d5-backend:latest || exit 1
+                              docker push $dockerhub_usr/d5-frontend:latest || exit 1
                             '''
                         }
         }
