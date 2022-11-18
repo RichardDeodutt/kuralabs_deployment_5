@@ -55,7 +55,7 @@ pipeline{
                       string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'aws_secret_access_key')]) {
                         dir('intTerraform') {
                             sh '''#!/bin/bash
-                              terraform plan -out plan.tfplan -var="aws_access_key_id=$aws_access_key_id" -var="aws_secret_access_key=$aws_secret_access_key
+                              terraform plan -out plan.tfplan -var="aws_access_key_id=$aws_access_key_id" -var="aws_secret_access_key=$aws_secret_access_key"
                             '''
                         }
         }
