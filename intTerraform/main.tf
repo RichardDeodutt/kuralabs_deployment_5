@@ -99,7 +99,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
           "containerPort": 5000
         },
         {
-          "containerPort": 8080
+          "containerPort": 9000
         }
       ]
     }
