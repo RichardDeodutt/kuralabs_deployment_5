@@ -42,9 +42,7 @@ pipeline{
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'aws_access_key_id'), 
                       string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'aws_secret_access_key')]) {
                         dir('intTerraform') {
-                            sh '''#!/bin/bash
-                              terraform init
-                            '''
+                            sh 'terraform init'
                         }
         }
       }
@@ -54,9 +52,7 @@ pipeline{
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'aws_access_key_id'), 
                       string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'aws_secret_access_key')]) {
                         dir('intTerraform') {
-                            sh '''#!/bin/bash
-                              terraform plan -out plan.tfplan -var="aws_access_key_id=$aws_access_key_id" -var="aws_secret_access_key=$aws_secret_access_key"
-                            '''
+                            sh 'terraform plan -out plan.tfplan -var="aws_access_key_id=$aws_access_key_id" -var="aws_secret_access_key=$aws_secret_access_key"'
                         }
         }
       }
@@ -66,9 +62,7 @@ pipeline{
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'aws_access_key_id'), 
                       string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'aws_secret_access_key')]) {
                         dir('intTerraform') {
-                            sh '''#!/bin/bash
-                              terraform apply plan.tfplan
-                            '''
+                            sh 'terraform apply plan.tfplan'
                         }
         }
       }
@@ -126,9 +120,7 @@ pipeline{
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'aws_access_key_id'),
                       string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'aws_secret_access_key')]) {
                         dir('intTerraform') {
-                          sh '''#!/bin/bash
-                              terraform destroy -auto-approve -var="aws_access_key_id=$aws_access_key_id" -var="aws_secret_access_key=$aws_secret_access_key"
-                            '''
+                          sh 'terraform destroy -auto-approve -var="aws_access_key_id=$aws_access_key_id" -var="aws_secret_access_key=$aws_secret_access_key"'
                         }
         }
       }
