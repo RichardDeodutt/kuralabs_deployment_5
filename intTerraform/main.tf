@@ -41,7 +41,73 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       },
       "portMappings": [
         {
+        }
+      ]
+    },
+      {
+      "name": "backend-container",
+      "image": "richarddeodutt/d5-backend:latest",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/full-stack-logs",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "portMappings": [
+        {
+        }
+      ]
+    },
+      {
+      "name": "adminer-container",
+      "image": "richarddeodutt/d5-adminer:latest",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/full-stack-logs",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "portMappings": [
+        {
+        }
+      ]
+    },
+      {
+      "name": "mysql-container",
+      "image": "richarddeodutt/d5-mysql:latest",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/full-stack-logs",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "portMappings": [
+        {
+        }
+      ]
+    },
+      {
+      "name": "nginx-container",
+      "image": "richarddeodutt/d5-nginx:latest",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/full-stack-logs",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "portMappings": [
+        {
           "containerPort": 80
+          "containerPort": 5000
+          "containerPort": 8080
         }
       ]
     }
@@ -78,9 +144,8 @@ resource "aws_ecs_service" "aws-ecs-service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.full-stack-app.arn
-    container_name   = "frontend-container"
+    container_name   = "nginx-container"
     container_port   = 80
   }
 
 }
-
