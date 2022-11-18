@@ -1,6 +1,6 @@
-resource "aws_lb_target_group" "url-app" {
-  name        = "url-app"
-  port        = 5000
+resource "aws_lb_target_group" "full-stack-app" {
+  name        = "full-stack-app"
+  port        = 80
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = aws_vpc.app_vpc.id
@@ -10,11 +10,11 @@ resource "aws_lb_target_group" "url-app" {
     path    = "/health"
   }
 
-  depends_on = [aws_alb.url_app]
+  depends_on = [aws_alb.full-stack_app]
 }
 
-resource "aws_alb" "url_app" {
-  name               = "url-lb"
+resource "aws_alb" "full-stack_app" {
+  name               = "full-stack-lb"
   internal           = false
   load_balancer_type = "application"
 
@@ -30,17 +30,17 @@ resource "aws_alb" "url_app" {
   depends_on = [aws_internet_gateway.igw]
 }
 
-resource "aws_alb_listener" "url_app_listener" {
-  load_balancer_arn = aws_alb.url_app.arn
+resource "aws_alb_listener" "full-stack_app_listener" {
+  load_balancer_arn = aws_alb.full-stack_app.arn
   port              = "80"
   protocol          = "HTTP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.url-app.arn
+    target_group_arn = aws_lb_target_group.full-stack-app.arn
   }
 }
 
 output "alb_url" {
-  value = "http://${aws_alb.url_app.dns_name}"
+  value = "http://${aws_alb.full-stack_app.dns_name}"
 }

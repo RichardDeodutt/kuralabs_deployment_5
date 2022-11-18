@@ -7,41 +7,41 @@ provider "aws" {
 
 # Cluster
 resource "aws_ecs_cluster" "aws-ecs-cluster" {
-  name = "urlapp-cluster"
+  name = "full-stack-app-cluster"
   tags = {
-    Name = "url-ecs"
+    Name = "full-stack-app-ecs"
   }
 }
 
 resource "aws_cloudwatch_log_group" "log-group" {
-  name = "/ecs/url-logs"
+  name = "/ecs/full-stack-logs"
 
   tags = {
-    Application = "url-app"
+    Application = "full-stack-app"
   }
 }
 
 # Task Definition
 
 resource "aws_ecs_task_definition" "aws-ecs-task" {
-  family = "url-task"
+  family = "full-stack-app-task"
 
   container_definitions = <<EOF
   [
   {
-      "name": "url-container",
-      "image": "tsanderson77/classact:latest",
+      "name": "frontend-container",
+      "image": "richarddeodutt/d5-frontend:latest",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/url-logs",
+          "awslogs-group": "/ecs/full-stack-logs",
           "awslogs-region": "us-east-1",
           "awslogs-stream-prefix": "ecs"
         }
       },
       "portMappings": [
         {
-          "containerPort": 5000
+          "containerPort": 80
         }
       ]
     }
@@ -52,14 +52,14 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
   network_mode             = "awsvpc"
   memory                   = "1024"
   cpu                      = "512"
-  execution_role_arn       = "arn:aws:iam::266686430719:role/ecsTaskExecutionRole"
-  task_role_arn            = "arn:aws:iam::266686430719:role/ecsTaskExecutionRole"
+  execution_role_arn       = "arn:aws:iam::498463483397:role/ecsTaskEX"
+  task_role_arn            = "arn:aws:iam::498463483397:role/ecsTaskEX"
 
 }
 
 # ECS Service
 resource "aws_ecs_service" "aws-ecs-service" {
-  name                 = "url-ecs-service"
+  name                 = "full-stack-app-ecs-service"
   cluster              = aws_ecs_cluster.aws-ecs-cluster.id
   task_definition      = aws_ecs_task_definition.aws-ecs-task.arn
   launch_type          = "FARGATE"
@@ -73,13 +73,13 @@ resource "aws_ecs_service" "aws-ecs-service" {
       aws_subnet.private_b.id
     ]
     assign_public_ip = false
-    security_groups  = [aws_security_group.ingress_app.id]
+    security_groups  = [aws_security_group.http.id, aws_security_group.ingress_app.id, aws_security_group.ingress_admin.id]
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.url-app.arn
-    container_name   = "url-container"
-    container_port   = 5000
+    target_group_arn = aws_lb_target_group.full-stack-app.arn
+    container_name   = "full-stack-app-container"
+    container_port   = 80
   }
 
 }
