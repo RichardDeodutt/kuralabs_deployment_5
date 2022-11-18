@@ -87,7 +87,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       {
       "name": "nginx-container",
       "image": "richarddeodutt/d5-nginx:latest",
-      "essential": false,
+      "essential": true,
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
