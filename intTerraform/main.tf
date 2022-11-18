@@ -39,10 +39,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
           "awslogs-stream-prefix": "ecs"
         }
       },
-      "portMappings": [
-        {
-        }
-      ]
+      "portMappings": []
     },
       {
       "name": "backend-container",
@@ -55,10 +52,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
           "awslogs-stream-prefix": "ecs"
         }
       },
-      "portMappings": [
-        {
-        }
-      ]
+      "portMappings": []
     },
       {
       "name": "adminer-container",
@@ -71,10 +65,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
           "awslogs-stream-prefix": "ecs"
         }
       },
-      "portMappings": [
-        {
-        }
-      ]
+      "portMappings": []
     },
       {
       "name": "mysql-container",
@@ -87,10 +78,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
           "awslogs-stream-prefix": "ecs"
         }
       },
-      "portMappings": [
-        {
-        }
-      ]
+      "portMappings": []
     },
       {
       "name": "nginx-container",
