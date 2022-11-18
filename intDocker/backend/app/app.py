@@ -4,6 +4,7 @@ import datetime
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
 import mysqlx
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -81,4 +82,10 @@ def delete_article(id):
     return article_schema.jsonify(article)
 
 if __name__ == "__main__":
-    app.run
+    while True:
+        try:
+            app.run
+        except Exception as e:
+            print('Error while running')
+            print(str(e))
+            time.sleep(15)

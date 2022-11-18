@@ -78,7 +78,7 @@ pipeline{
         sh '''#!/bin/bash
 
           exit 0
-          
+
           cd intTerraform
           echo "http://$(terraform output -raw instance_ip):8000" > ../instance_ip
           cd ..
@@ -111,11 +111,11 @@ pipeline{
           NO_COLOR=1 /usr/bin/npx cypress run --config video=false --spec cypress/integration/test.spec.js
           '''
       }
-      post{
-        always {
-          junit 'test-reports/cypress-results.xml'
-        }
-      }
+      //post{
+      //  always {
+      //    junit 'test-reports/cypress-results.xml'
+      //  }
+      //}
     }
     stage('Wait 5 Minutes') {
       steps {
