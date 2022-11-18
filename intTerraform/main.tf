@@ -31,7 +31,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
   {
       "name": "frontend-container",
       "image": "richarddeodutt/d5-frontend:latest",
-      "essential": "false",
+      "essential": false,
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -45,7 +45,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       {
       "name": "backend-container",
       "image": "richarddeodutt/d5-backend:latest",
-      "essential": "false",
+      "essential": false,
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -59,7 +59,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       {
       "name": "adminer-container",
       "image": "richarddeodutt/d5-adminer:latest",
-      "essential": "false",
+      "essential": false,
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -73,7 +73,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       {
       "name": "mysql-container",
       "image": "richarddeodutt/d5-mysql:latest",
-      "essential": "false",
+      "essential": false,
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -87,7 +87,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       {
       "name": "nginx-container",
       "image": "richarddeodutt/d5-nginx:latest",
-      "essential": "false",
+      "essential": false,
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
