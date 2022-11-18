@@ -35,7 +35,15 @@ class ArticleSchema(ma.Schema):
 article_schema = ArticleSchema()
 articles_schema = ArticleSchema(many=True)
 
-db.create_all()
+with app.app_context():
+    while True:
+        try:
+            db.create_all()
+            break
+        except Exception as e:
+            print('Error while connecting to db')
+            print(str(e))
+            time.sleep(15)
 
 @app.route('/get', methods = ['GET'])
 def get_articles():
@@ -81,10 +89,15 @@ def delete_article(id):
     db.session.commit()
     return article_schema.jsonify(article)
 
+@app.route('/', methods = ['GET'])
+def onlinecheck():
+    return 'Okay'
+
 if __name__ == "__main__":
     while True:
         try:
             app.run
+            break
         except Exception as e:
             print('Error while running')
             print(str(e))

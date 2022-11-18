@@ -7,7 +7,13 @@ resource "aws_lb_target_group" "full-stack-app" {
 
   health_check {
     enabled = true
-    path    = "/health"
+    path = "/"
+    port = 80
+    healthy_threshold = 6
+    unhealthy_threshold = 2
+    timeout = 2
+    interval = 5
+    matcher = "200"
   }
 
   depends_on = [aws_alb.full-stack_app]
