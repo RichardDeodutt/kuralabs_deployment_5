@@ -9,8 +9,10 @@ pipeline{
         '''
       }
     }
-    agent{label 'Docker'}
     stage('Docker Build Images') {
+      agent{
+        label 'Docker'
+      }
       steps {
         withCredentials([string(credentialsId: 'DOCKERHUB_USR', variable: 'dockerhub_usr'), 
                       string(credentialsId: 'DOCKERHUB_PWD', variable: 'dockerhub_pwd')]) {
