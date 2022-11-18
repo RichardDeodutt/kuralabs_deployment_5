@@ -117,10 +117,10 @@ pipeline{
       //  }
       //}
     }
-    stage('Wait 5 Minutes') {
+    stage('Wait 10 Minutes') {
       steps {
         sh '''#!/bin/bash
-          sleep 300
+          sleep 600
           '''
       }
     }
