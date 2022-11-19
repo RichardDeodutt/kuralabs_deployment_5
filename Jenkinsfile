@@ -122,13 +122,13 @@ pipeline{
         }
       }
     }
-    stage('Wait 10 Minutes') {
-      steps {
-        sh '''#!/bin/bash
-          sleep 600
-          '''
-      }
-    }
+    // stage('Wait 10 Minutes') {
+    //   steps {
+    //     sh '''#!/bin/bash
+    //       sleep 600
+    //       '''
+    //   }
+    // }
     stage('Terraform Destroy') {
       agent{
         label 'Terraform'
