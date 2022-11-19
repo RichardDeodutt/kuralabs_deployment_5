@@ -76,8 +76,8 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       "essential": false,
       "environment": [
                 {
-                    "MYSQL_ROOT_PASSWORD": "example",
-                    "value": "value"
+                    "name": "MYSQL_ROOT_PASSWORD",
+                    "value": "example"
                 },
                 {
                     "name": "MYSQL_DATABASE",
