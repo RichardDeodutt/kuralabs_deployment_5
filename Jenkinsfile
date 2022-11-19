@@ -2,6 +2,9 @@ pipeline{
   agent any
    stages{
     stage('Build Tools') {
+      agent{
+        label 'Terraform'
+      }
       steps {
         sh '''#!/bin/bash
         node --max-old-space-size=100 /usr/bin/npm install --save-dev cypress@7.6.0
@@ -77,6 +80,9 @@ pipeline{
       }
     }
     stage('Cypress E2E') {
+      agent{
+        label 'Terraform'
+      }
       steps {
         sh "echo ${env.server_url} > server_url"
         sh '''#!/bin/bash
