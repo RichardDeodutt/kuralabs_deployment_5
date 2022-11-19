@@ -4,7 +4,7 @@ describe('Heading', () => {
 
         cy.get('title')
             .invoke('text')
-            .should("equal", "URL Shortener")
+            .should("equal", "React App")
     });
 
 });
