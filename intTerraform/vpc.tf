@@ -141,8 +141,8 @@ resource "aws_security_group" "ingress_admin" {
   vpc_id      = aws_vpc.app_vpc.id
 
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 9000
+    to_port     = 9000
     protocol    = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
