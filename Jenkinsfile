@@ -69,6 +69,9 @@ pipeline{
                       string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'aws_secret_access_key')]) {
                         dir('intTerraform') {
                             sh 'terraform apply plan.tfplan'
+                            script {
+                              env.server_url = terraform output -raw alb_url
+                            }
                         }
         }
       }
@@ -78,7 +81,7 @@ pipeline{
         sh '''#!/bin/bash
 
           cd intTerraform
-          echo "http://$(terraform output -raw alb_url)" > ../server_url
+          echo ${env.server_url} > ../server_url
           cd ..
           sed -i "s,http://127.0.0.1:5000,$(cat server_url),g" cypress/integration/test.spec.js
           
