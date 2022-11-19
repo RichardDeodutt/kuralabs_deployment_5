@@ -97,7 +97,7 @@ pipeline{
 
           echo "Waiting for Server to come up at: $(cat server_url)"
 
-          while [ $(curl -s -I $(cat server_url) | head -n 1 | cut -d$' ' -f2) -ne 200 ]; do
+          while [ $(curl -s -I $(cat server_url) > /dev/null 2>&1 && curl -s -I $(cat server_url) | head -n 1 | cut -d$' ' -f2 || echo 1) -ne 200 ]; do
 
           sleep $Retry
 
