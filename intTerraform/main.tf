@@ -60,6 +60,12 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       "name": "adminer-container",
       "image": "richarddeodutt/d5-adminer:latest",
       "essential": false,
+      "environment": [
+                {
+                    "name": "ADMINER_DEFAULT_SERVER",
+                    "value": "127.0.0.1"
+                }
+      ],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {

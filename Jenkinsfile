@@ -77,12 +77,10 @@ pipeline{
       steps {
         sh '''#!/bin/bash
 
-          exit 0
-
           cd intTerraform
-          echo "http://$(terraform output -raw instance_ip):8000" > ../instance_ip
+          echo "http://$(terraform output -raw alb_url)" > ../server_url
           cd ..
-          sed -i "s,http://127.0.0.1:5000,$(cat instance_ip),g" cypress/integration/test.spec.js
+          sed -i "s,http://127.0.0.1:5000,$(cat server_url),g" cypress/integration/test.spec.js
           
           StartEpoch=$(date +%s)
 
@@ -90,9 +88,9 @@ pipeline{
 
           Retry=15
 
-          echo "Waiting for Server to come up at: $(cat instance_ip)"
+          echo "Waiting for Server to come up at: $(cat server_url)"
 
-          while [ $(curl --connect-timeout 1 $(cat instance_ip) > /dev/null 2>&1 ; echo $?) -ne 0 ]; do
+          while [ $(curl --connect-timeout 1 $(cat server_url) > /dev/null 2>&1 ; echo $?) -ne 0 ]; do
 
           sleep $Retry
 
@@ -111,11 +109,11 @@ pipeline{
           NO_COLOR=1 /usr/bin/npx cypress run --config video=false --spec cypress/integration/test.spec.js
           '''
       }
-      //post{
-      //  always {
-      //    junit 'test-reports/cypress-results.xml'
-      //  }
-      //}
+      post{
+        always {
+          junit 'test-reports/cypress-results.xml'
+        }
+      }
     }
     stage('Wait 10 Minutes') {
       steps {
