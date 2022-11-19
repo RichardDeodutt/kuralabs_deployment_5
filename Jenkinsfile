@@ -78,6 +78,7 @@ pipeline{
     }
     stage('Cypress E2E') {
       steps {
+        echo ${env.server_url} > ../server_url
         sh '''#!/bin/bash
 
           cd intTerraform
