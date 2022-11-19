@@ -70,7 +70,7 @@ pipeline{
                         dir('intTerraform') {
                             sh 'terraform apply plan.tfplan'
                             script {
-                              env.server_url = "${sh(terraform output -raw alb_url)}"
+                              env.server_url = "${sh(returnStdout: true, script: 'terraform output -raw alb_url')}"
                             }
                         }
         }
