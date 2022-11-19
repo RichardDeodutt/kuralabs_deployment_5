@@ -130,9 +130,9 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
 
 }
 
-# ECS Service Frontend
-resource "aws_ecs_service" "aws-ecs-service-frontend" {
-  name                 = "frontend-full-stack-app-ecs-service"
+# ECS Service
+resource "aws_ecs_service" "aws-ecs-service" {
+  name                 = "full-stack-app-ecs-service"
   cluster              = aws_ecs_cluster.aws-ecs-cluster.id
   task_definition      = aws_ecs_task_definition.aws-ecs-task.arn
   launch_type          = "FARGATE"
@@ -146,7 +146,7 @@ resource "aws_ecs_service" "aws-ecs-service-frontend" {
       aws_subnet.private_b.id
     ]
     assign_public_ip = false
-    security_groups  = [aws_security_group.http.id]
+    security_groups  = [aws_security_group.http.id, aws_security_group.ingress_app.id, aws_security_group.ingress_admin.id]
   }
 
   load_balancer {
@@ -155,52 +155,10 @@ resource "aws_ecs_service" "aws-ecs-service-frontend" {
     container_port   = 80
   }
 
-}
-
-# ECS Service Backend
-resource "aws_ecs_service" "aws-ecs-service-backend" {
-  name                 = "backend-full-stack-app-ecs-service"
-  cluster              = aws_ecs_cluster.aws-ecs-cluster.id
-  task_definition      = aws_ecs_task_definition.aws-ecs-task.arn
-  launch_type          = "FARGATE"
-  scheduling_strategy  = "REPLICA"
-  desired_count        = 1
-  force_new_deployment = true
-
-  network_configuration {
-    subnets = [
-      aws_subnet.private_a.id,
-      aws_subnet.private_b.id
-    ]
-    assign_public_ip = false
-    security_groups  = [aws_security_group.ingress_app.id]
-  }
-
   load_balancer {
     target_group_arn = aws_lb_target_group.backend-full-stack-app.arn
     container_name   = "nginx-container"
     container_port   = 5000
-  }
-
-}
-
-# ECS Service Adminer
-resource "aws_ecs_service" "aws-ecs-service-adminer" {
-  name                 = "adminer-full-stack-app-ecs-service"
-  cluster              = aws_ecs_cluster.aws-ecs-cluster.id
-  task_definition      = aws_ecs_task_definition.aws-ecs-task.arn
-  launch_type          = "FARGATE"
-  scheduling_strategy  = "REPLICA"
-  desired_count        = 1
-  force_new_deployment = true
-
-  network_configuration {
-    subnets = [
-      aws_subnet.private_a.id,
-      aws_subnet.private_b.id
-    ]
-    assign_public_ip = false
-    security_groups  = [aws_security_group.ingress_admin.id]
   }
 
   load_balancer {
